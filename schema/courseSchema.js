@@ -1,31 +1,31 @@
+const { default: mongoose } = require("mongoose");
 const maongoose = require("mongoose");
 
-module.exports.assetSchema = maongoose.Schema({
+// subschema for course
+const course = mongoose.Schema({
+  name: { type: String },
+  prize: { type: Number },
+  user: {
+    type: [String],
+  },
+  purchase_date: {
+    type: Date,
+  },
+  expire_date: {
+    type: Date,
+  },
+});
+
+module.exports.courseSchema = maongoose.Schema({
   platform: {
-    name: {
+    type: String,
+  },
+  courses: [course],
+  credential: {
+    website: {
       type: String,
     },
-    course: [
-      {
-        name: { type: String },
-        price: { type: Number },
-        user: {
-          type: [String],
-        },
-        purchase_date: {
-          type: Date,
-        },
-        expire_date: {
-          type: Date,
-        },
-      },
-    ],
-    credential: {
-      username: {
-        type: String,
-      },
-      email: { type: String },
-      password: { type: String },
-    },
+    email: { type: String },
+    password: { type: String },
   },
 });

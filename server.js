@@ -3,8 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./router/userRouter");
 const assetRouter = require("./router/assetRouter");
+const courseRouter = require("./router/courseRouter");
 const { dbConnect } = require("./dConnect");
 const { errorHandler } = require("./errorHandler");
+const toolRouter = require("./router/toolRouter");
 require("dotenv").config();
 
 // main code
@@ -27,6 +29,8 @@ app.use(errorHandler);
 // router setup
 app.use("/user", userRouter);
 app.use("/asset", assetRouter);
+app.use("/course", courseRouter);
+app.use("/tool", toolRouter);
 
 // local server port
 app.listen(port);

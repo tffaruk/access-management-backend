@@ -5,7 +5,7 @@ const userRouter = require("./router/userRouter");
 const assetRouter = require("./router/assetRouter");
 const courseRouter = require("./router/courseRouter");
 const { dbConnect } = require("./dConnect");
-const { errorHandler } = require("./errorHandler");
+const { errorHandler, invalidPathHandler } = require("./errorHandler");
 const toolRouter = require("./router/toolRouter");
 require("dotenv").config();
 
@@ -23,6 +23,7 @@ app.use(cors());
 
 // database connection
 dbConnect();
+
 // error handler
 app.use(errorHandler);
 

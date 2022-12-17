@@ -7,4 +7,6 @@ userRouter
   .get(userControler.getAllUser)
   .post(userControler.postUser);
 
+userRouter.patch("/:id", userControler.updateUser);
+
 module.exports = userRouter;

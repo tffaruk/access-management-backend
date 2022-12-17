@@ -1,5 +1,7 @@
 const { Course } = require("../model/courseModel");
 
+
+// all courses
 module.exports.getAllCourse = async (req, res) => {
   try {
     await Course.find({}).exec((err, data) => {
@@ -15,8 +17,8 @@ module.exports.getAllCourse = async (req, res) => {
   } catch (error) {}
 };
 
-// post user
 
+// insert course
 module.exports.postCourse = async (req, res, next) => {
   if (!req.body.credential.email || !req.body.credential.password) {
     res.status(401).send({
@@ -41,22 +43,23 @@ module.exports.postCourse = async (req, res, next) => {
   });
 };
 
-// insert data into organization
+// insert data into courses
 module.exports.updateCourse = async (req, res, next) => {
-  const tools = await Course.findByIdAndUpdate(req.body.id, {
+  console.log(req.body);
+  const course = await Course.findByIdAndUpdate(req.params.id, {
     $push: { courses: req.body },
   }).clone();
   res.status(200).json({
     status: "true",
-    data: { tools },
+    data: { course },
   });
 };
 
-// update user into organization users
+// update user into courses users
 module.exports.updateCourseUser = async (req, res, next) => {
   const userData = await Course.updateOne(
-    { "organization._id": req.params.id },
-    { $push: { "organization.$[elem].user": req.body.user } },
+    { "courses._id": req.params.id },
+    { $push: { "courses.$[elem].user": req.body.user } },
     { arrayFilters: [{ "elem._id": req.params.id }] }
   );
   res.status(200).json({

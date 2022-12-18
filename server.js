@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 
   res.end();
 });
+
 // middleware
 app.use(express.json());
 app.use(cors());

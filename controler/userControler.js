@@ -70,3 +70,16 @@ module.exports.updateUser = async (req, res) => {
     }
   ).clone();
 };
+
+module.exports.deleteUser=(req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((blog) => {
+      if (!blog) {
+        return res.status(404).send();
+      }
+      res.send(blog);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+}

@@ -18,14 +18,15 @@ module.exports.getAllTool = async (req, res) => {
 
 // insert tools
 module.exports.postTool = async (req, res, next) => {
-  if (!req.body.name) {
+  console.log(req.body);
+  if (!req.body.tool.name) {
     res.status(401).send({
       success: false,
       error: "data are missing",
     });
   }
-  console.log(req.body, "tools");
-  const postData = new Tool(req.body);
+
+  const postData = new Tool(req.body.tool);
   postData.save(req.body, (error) => {
     if (error) {
       res.status(500).send({
@@ -80,4 +81,17 @@ module.exports.updateToolOrgUser = async (req, res, next) => {
     status: "true",
     data: { userData },
   });
+};
+// delete tool
+module.exports.deleteTool = (req, res) => {
+  Tool.findByIdAndDelete(req.params.id)
+    .then((blog) => {
+      if (!blog) {
+        return res.status(404).send();
+      }
+      res.send(blog);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 };

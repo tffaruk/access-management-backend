@@ -16,4 +16,7 @@ toolRouter.patch("/:id", toolControler.updateToolOrg);
 // insert user for each organization
 toolRouter.patch("/user/:id", toolControler.updateToolOrgUser);
 
+// delete tool
+toolRouter.delete("/:id", toolControler.deleteTool);
+
 module.exports = toolRouter;

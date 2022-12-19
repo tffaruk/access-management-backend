@@ -5,16 +5,16 @@ const toolRouter = express.Router();
 toolRouter
   .route("/")
   .get(toolControler.getAllTool)
-  .post(toolControler.postTool)
-  .put(toolControler.updateToolOrg);
+  .post(toolControler.postTool);
 
 // get single tool
 toolRouter.get("/:id", toolControler.getSingleToolOrg);
+
 // insert tool
-toolRouter.patch("/:id", toolControler.updateToolOrg);
+toolRouter.patch("/:id", toolControler.updateTool);
 
 // insert user for each organization
-toolRouter.patch("/user/:id", toolControler.updateToolOrgUser);
+toolRouter.patch("/organization/:id", toolControler.updateToolOrganization);
 
 // delete tool
 toolRouter.delete("/:id", toolControler.deleteTool);

@@ -59,10 +59,36 @@ module.exports.getSingleToolOrg = async (req, res) => {
     }
   });
 };
-// insert data into courses
-module.exports.updateToolOrg = async (req, res, next) => {
-  const tools = await Tool.findByIdAndUpdate(req.body.id, {
-    $push: { courses: req.body },
+
+//
+module.exports.updateTool = async (req, res) => {
+  await Tool.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        name: req.body.name,
+        prize: req.body.tool.prize,
+        organization: req.body.tool.organization,
+      },
+    },
+    (err) => {
+      if (err) {
+        res.status(500).json({
+          error: "the server side error",
+        });
+      } else {
+        res.status(200).json({
+          message: "update update succesfully",
+        });
+      }
+    }
+  ).clone();
+};
+// insert data into organization
+module.exports.insertToolOrg = async (req, res, next) => {
+  console.log(req.body);
+  const tools = await Tool.findByIdAndUpdate(req.params.id, {
+    $push: { organization: req.body },
   }).clone();
   res.status(200).json({
     status: "true",
@@ -70,12 +96,17 @@ module.exports.updateToolOrg = async (req, res, next) => {
   });
 };
 
-// update user into courses users
-module.exports.updateToolOrgUser = async (req, res, next) => {
+// update organization
+module.exports.updateToolOrganization = async (req, res, next) => {
+  console.log(req.body);
   const userData = await Tool.updateOne(
-    { "courses._id": req.params.id },
-    { $push: { "courses.$[elem].user": req.body.user } },
-    { arrayFilters: [{ "elem._id": req.params.id }] }
+    { "organization._id": req.params.id },
+    {
+      $set: {
+        "organization.$.name": req.body.organization.name,
+        "organization.$.user": req.body.organization.user,
+      },
+    }
   );
   res.status(200).json({
     status: "true",

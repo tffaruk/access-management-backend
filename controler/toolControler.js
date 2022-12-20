@@ -60,7 +60,7 @@ module.exports.getSingleToolOrg = async (req, res) => {
   });
 };
 
-//
+//update tool
 module.exports.updateTool = async (req, res) => {
   await Tool.updateOne(
     { _id: req.params.id },
@@ -84,17 +84,6 @@ module.exports.updateTool = async (req, res) => {
     }
   ).clone();
 };
-// insert data into organization
-module.exports.insertToolOrg = async (req, res, next) => {
-  console.log(req.body);
-  const tools = await Tool.findByIdAndUpdate(req.params.id, {
-    $push: { organization: req.body },
-  }).clone();
-  res.status(200).json({
-    status: "true",
-    data: { tools },
-  });
-};
 
 // update organization
 module.exports.updateToolOrganization = async (req, res, next) => {
@@ -114,13 +103,33 @@ module.exports.updateToolOrganization = async (req, res, next) => {
   });
 };
 // delete tool
-module.exports.deleteTool = (req, res) => {
-  Tool.findByIdAndDelete(req.params.id)
-    .then((tool) => {
-      if (!tool) {
+module.exports.deleteTool = async (req, res) => {
+  await Tool.findByIdAndDelete(req.params.id, (err) => {
+    if (err) {
+      res.status(500).json({
+        error: "the server side error",
+      });
+    } else {
+      res.status(200).json({
+        message: "delete succesfully",
+      });
+    }
+  });
+};
+
+// delete organization
+module.exports.deleteOrganization = async (req, res) => {
+  console.log(req.params.id);
+  await Tool.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pull: { organization: { _id: req.body.id } } },
+    { safe: true, multi: false }
+  )
+    .then((course) => {
+      if (!course) {
         return res.status(404).send();
       }
-      res.send(tool);
+      res.send(course);
     })
     .catch((error) => {
       res.status(500).send(error);

@@ -1,5 +1,6 @@
 const express = require("express");
 const toolControler = require("../controler/toolControler");
+const { Tool } = require("../model/toolModel");
 const toolRouter = express.Router();
 
 toolRouter
@@ -18,5 +19,8 @@ toolRouter.patch("/organization/:id", toolControler.updateToolOrganization);
 
 // delete tool
 toolRouter.delete("/:id", toolControler.deleteTool);
+
+// delete an organization
+toolRouter.patch("/organization/delete/:id", toolControler.deleteOrganization);
 
 module.exports = toolRouter;

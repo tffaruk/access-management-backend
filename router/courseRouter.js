@@ -10,9 +10,9 @@ courseRouter
 // insert tool
 courseRouter.patch("/:id", courseControler.updateCourse);
 
-// insert user for each organization
-courseRouter.patch("/user/:id", courseControler.updateCourseUser);
 
+// insert single course
+courseRouter.patch("/course/:id",courseControler.updateSingleCourse);
 
 // delete tool
 courseRouter.delete("/:id", courseControler.deleteCourse);

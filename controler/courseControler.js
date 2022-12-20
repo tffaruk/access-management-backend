@@ -58,15 +58,34 @@ module.exports.updateCourse = async (req, res, next) => {
 };
 
 // update user into courses users
-module.exports.updateCourseUser = async (req, res, next) => {
-  const userData = await Course.updateOne(
-    { "courses._id": req.params.id },
-    { $push: { "courses.$[elem].user": req.body.user } },
-    { arrayFilters: [{ "elem._id": req.params.id }] }
+// module.exports.updateCourseUser = async (req, res, next) => {
+//   const userData = await Course.updateOne(
+//     { "courses._id": req.params.id },
+//     { $push: { "courses.$[elem].user": req.body.user } },
+//     { arrayFilters: [{ "elem._id": req.params.id }] }
+//   );
+//   res.status(200).json({
+//     status: "true",
+//     data: { userData },
+//   });
+// };
+
+// update singleCourse
+module.exports.updateSingleCourse = async (req, res, next) => {
+  console.log(req.body);
+  const courseData = await Course.updateOne(
+    { "course._id": req.params.id },
+    {
+      $set: {
+        "course.$.name": req.body.course.name,
+        "course.$.user": req.body.course.user,
+        "course.$.prize": req.body.course.prize,
+      },
+    }
   );
   res.status(200).json({
     status: "true",
-    data: { userData },
+    data: { courseData },
   });
 };
 

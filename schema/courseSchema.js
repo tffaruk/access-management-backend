@@ -3,6 +3,7 @@ const maongoose = require("mongoose");
 
 // subschema for course
 const course = mongoose.Schema({
+  id: { type: Number },
   name: { type: String },
   prize: { type: Number },
   user: {
@@ -20,7 +21,7 @@ module.exports.courseSchema = maongoose.Schema({
   platform: {
     type: String,
   },
-  courses: [course],
+  course: [course],
   credential: {
     website: {
       type: String,

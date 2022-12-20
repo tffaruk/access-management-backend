@@ -13,4 +13,8 @@ courseRouter.patch("/:id", courseControler.updateCourse);
 // insert user for each organization
 courseRouter.patch("/user/:id", courseControler.updateCourseUser);
 
+
+// delete tool
+courseRouter.delete("/:id", courseControler.deleteCourse);
+
 module.exports = courseRouter;

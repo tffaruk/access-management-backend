@@ -116,11 +116,11 @@ module.exports.updateToolOrganization = async (req, res, next) => {
 // delete tool
 module.exports.deleteTool = (req, res) => {
   Tool.findByIdAndDelete(req.params.id)
-    .then((blog) => {
-      if (!blog) {
+    .then((tool) => {
+      if (!tool) {
         return res.status(404).send();
       }
-      res.send(blog);
+      res.send(tool);
     })
     .catch((error) => {
       res.status(500).send(error);

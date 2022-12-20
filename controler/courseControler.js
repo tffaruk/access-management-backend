@@ -1,6 +1,5 @@
 const { Course } = require("../model/courseModel");
 
-
 // all courses
 module.exports.getAllCourse = async (req, res) => {
   try {
@@ -17,18 +16,21 @@ module.exports.getAllCourse = async (req, res) => {
   } catch (error) {}
 };
 
-
 // insert course
 module.exports.postCourse = async (req, res, next) => {
-  if (!req.body.credential.email || !req.body.credential.password) {
+  console.log(req.body);
+  if (
+    !req.body.course.credential.email ||
+    !req.body.course.credential.password
+  ) {
     res.status(401).send({
       success: false,
       error: "data are missing",
     });
   }
-  console.log(req.body, "courses");
-  const postData = new Course(req.body);
-  postData.save(req.body, (error) => {
+
+  const postData = new Course(req.body.course);
+  postData.save(req.body.course, (error) => {
     if (error) {
       res.status(500).send({
         success: false,
@@ -66,4 +68,18 @@ module.exports.updateCourseUser = async (req, res, next) => {
     status: "true",
     data: { userData },
   });
+};
+
+// delete tool
+module.exports.deleteCourse = (req, res) => {
+  Course.findByIdAndDelete(req.params.id)
+    .then((course) => {
+      if (!course) {
+        return res.status(404).send();
+      }
+      res.send(course);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 };

@@ -118,7 +118,7 @@ module.exports.deleteCourse = (req, res) => {
     });
 };
 
-// delete single course
+// delete single asset
 module.exports.deleteSingleCourse = (req, res) => {
   console.log(req.params.id, req.body.id);
   Course.findOneAndUpdate(

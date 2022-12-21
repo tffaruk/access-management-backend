@@ -14,8 +14,17 @@ module.exports.assetSchema = maongoose.Schema({
   purchase_date: {
     type: Date,
   },
-  issue: {
-    type: [String],
+  issues: {
+    type: [
+      {
+        id: {
+          type: Number,
+        },
+        issue: {
+          type: String,
+        },
+      },
+    ],
   },
   date: {
     type: Date,

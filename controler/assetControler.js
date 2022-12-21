@@ -17,15 +17,15 @@ module.exports.getAllAsset = async (req, res) => {
 // post user
 
 module.exports.postAsset = async (req, res, next) => {
-  if (!req.body.name || !req.body.user) {
+  if (!req.body.asset.name || !req.body.asset.user) {
     res.status(401).send({
       success: false,
       error: "data are missing",
     });
   }
   console.log(req.body);
-  const postData = new Asset(req.body);
-  postData.save(req.body, (error) => {
+  const postData = new Asset(req.body.asset);
+  postData.save(req.body.asset, (error) => {
     if (error) {
       res.status(500).send({
         success: false,
@@ -38,4 +38,45 @@ module.exports.postAsset = async (req, res, next) => {
       });
     }
   });
+};
+// update asset
+module.exports.updateAsset = async (req, res) => {
+  await Asset.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        name: req.body.asset.name,
+        value: req.body.asset.value,
+        user: req.body.asset.user,
+        purchase_date: req.body.asset.purchase_date,
+        issues: req.body.asset.issues,
+      },
+    },
+    (err) => {
+      if (err) {
+        res.status(500).json({
+          error: "the server side error",
+        });
+      } else {
+        res.status(200).json({
+          message: "update asset succesfully",
+        });
+      }
+    }
+  ).clone();
+};
+
+
+// delete asset
+module.exports.deleteAsset = (req, res) => {
+ Asset.findByIdAndDelete(req.params.id)
+    .then((asset) => {
+      if (!asset) {
+        return res.status(404).send();
+      }
+      res.send(asset);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 };
